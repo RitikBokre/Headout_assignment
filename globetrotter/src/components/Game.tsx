@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Confetti from 'react-confetti';
 import dataset from '../dataset.json';
 
@@ -35,7 +35,7 @@ const Game: React.FC = () => {
     return allOptions;
   };
 
-  const selectRandomDestination = () => {
+  const selectRandomDestination = useCallback(() => {
     const randomIndex = Math.floor(Math.random() * dataset.length);
     const destination = dataset[randomIndex];
     const randomClues = destination.clues
@@ -48,11 +48,11 @@ const Game: React.FC = () => {
     setGameStatus('playing');
     setShowConfetti(false);
     setRevealedFact('');
-  };
+  }, []);
 
   useEffect(() => {
     selectRandomDestination();
-  }, []);
+}, [selectRandomDestination]);
 
   const handleGuess = (city: string) => {
     if (!currentDestination) return;
